@@ -1,0 +1,3 @@
+Given two non-negative integers n1 and n2 represented as strings, 
+return the product of n1 and n2, also represented as a string. 
+Twist: You can’t use any built-in language integer libraries nor convert the inputs to integers directly.
