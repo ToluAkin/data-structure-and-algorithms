@@ -5,7 +5,7 @@ def solution(A):
     sumA = sum(A)
     point1 = 0
     point2 = 0
-    print(lowest)
+    
     for i in range(len(A) - 1):
         point1 += A[i]
         point2 = sumA - point1
