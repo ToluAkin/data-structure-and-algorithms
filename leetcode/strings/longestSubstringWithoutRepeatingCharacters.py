@@ -4,23 +4,22 @@ def lengthOfLongestSubstring(s):
         return lenString
     
     longest = 0
-    counter = 0
+    pointer = 0
     new_dict = {}
-    
-    for value in s:
-        if value in new_dict:
-            if counter > longest:
-                longest = counter
-            counter = 1
-            new_dict = {}
-            new_dict[value] = value
-        else:
-            counter += 1
-            new_dict[value] = value
-        print(new_dict, counter)
-    if counter > longest:
-        longest = counter
+
+    for i in range(lenString):
+        value = s[i]
+        while value in new_dict:
+            new_dict.pop(s[pointer])
+            pointer += 1
+        new_dict[value] = value
+        longest = max(longest, i - pointer + 1)
     return longest
 
 
 print(lengthOfLongestSubstring("dvdf"))
+print(lengthOfLongestSubstring("pwwkew"))
+print(lengthOfLongestSubstring("bbbbb"))
+print(lengthOfLongestSubstring("abcabcbb"))
+print(lengthOfLongestSubstring("dvdfvmdf"))
+print(lengthOfLongestSubstring("ohvhjdml"))
