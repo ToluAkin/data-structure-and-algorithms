@@ -15,8 +15,7 @@ def judgeCircle(moves: str) -> bool:
     locDim = [0,0]
 
     # Approach is cardinal (LR, UD)
-    for i in range(len(moves)):
-        letter = moves[i]
+    for letter in moves:
         if letter == "L":
             locDim[0] -= 1
         elif letter == "R":
