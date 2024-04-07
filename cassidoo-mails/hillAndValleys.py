@@ -2,38 +2,41 @@
 # write a function hills(arr) and a function valleys(arr) 
 # that return the number of hills and valleys, respectively, in the array. The integers represent heights!
 
+def isValid(arr: list) -> bool:
+    if len(arr) < 3: return False
+
 def hills(arr: list) -> int:
+    isValid(arr)
+
     pos = 1
     hill = 0
-    left = 0
-
+    start = False
     while pos < len(arr) - 1:
-        if arr[pos] == arr[pos + 1] and left != arr[pos]:
-            left = arr[pos - 1]
-        elif arr[pos] != arr[pos + 1]:
-            left = 0
+        if arr[pos - 1] < arr[pos]:
+            start = True
 
-        if arr[pos - 1] < arr[pos] > arr[pos + 1] or left < arr[pos - 1] == arr[pos] > arr[pos + 1]:
+        if start and arr[pos] > arr[pos + 1]:
             hill += 1
-        
+            if start: 
+                start = False
         pos += 1
 
     return hill
 
 def valleys(arr: list) -> int:
+    isValid(arr)
+
     pos = 1
     valley = 0
-    left = 0
-
+    start = False
     while pos < len(arr) - 1:
-        if arr[pos] == arr[pos + 1] and left != arr[pos]:
-            left = arr[pos - 1]
+        if arr[pos - 1] > arr[pos]:
+            start = True
 
-        elif arr[pos] != arr[pos + 1]:
-            left = 0
-
-        if arr[pos - 1] > arr[pos] < arr[pos + 1] or left > arr[pos - 1] == arr[pos] < arr[pos + 1]:
-            valley += 1    
+        if start and arr[pos] < arr[pos + 1]:
+            valley += 1 
+            if start:
+                start = False   
         pos += 1
 
     return valley
