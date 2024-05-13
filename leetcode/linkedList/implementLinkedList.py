@@ -1,66 +1,93 @@
-class MyLinkedList:
-    def __init__(self):
-        myList = [[],[7],[2],[1],[3,0],[2],[6],[4],[4],[4],[5,0],[6]]
-
-        self.data = myList
-        self.val = None
+class Node:
+    def __init__(self, value):
+        self.val = value
         self.next = None
 
+class MyLinkedList:
+    def __init__(self):
+        self.head = None
+
+    def __iter__(self):
+        new_node = self.head
+        while new_node is not None:
+            yield new_node.val
+            new_node = new_node.next
+
+    
+    def __len__(self):
+        count = 0
+        new_node = self.head
+        while new_node is not None:
+            count += 1
+            new_node = new_node.next
+        return count
+
     def get(self, index: int) -> int:
-        if index < 0:
+        if index < 0 or index >= len(self):
             return -1
-        return self.data[index][0]
+
+        current = self.head
+        for _ in range(index):
+            current = current.next
+
+        return current.val
 
     def addAtHead(self, val: int) -> None:
-        head = self.data[0]
-        self.val = [val]
+        node = Node(val)
 
-        if not head:
-            head.append(val) 
-            self.data = [head] + self.data[1:]
+        if self.head is None:
+            self.head = node
         else:
-            self.data = [self.val] + self.data
-        return self.data
+            node.next = self.head
+            self.head = node
 
     def addAtTail(self, val: int) -> None:
-        self.val = val
-        if not self.data:
-            self.data.append(self.val)
+        node = Node(val)
+
+        if self.head is None:
+            self.head = node
         else:
-            new_node = [self.val]
-            self.data = self.data + [new_node]
-        return self.data
+            new_node = self.head
+            while new_node.next is not None:
+                new_node = new_node.next
+            new_node.next = node
 
     def addAtIndex(self, index: int, val: int) -> None:
-        self.val = val
-        new_node = [self.val]
-        len_node = len(self.data)
+        len_node = len(self)
+        new_node = self.head
 
+        if index < 0 or index > len_node:
+            return None
         if index == 0:
             self.addAtHead(new_node)
             return
-        elif index == len_node:
+        if index == len_node:
             self.addAtTail(new_node)
-        elif index > len_node:
             return
-        else:
-            front = self.data[:index]
-            back = self.data[index + 1:]
-            self.data = front + [new_node] + back
-        return self.data
+        count = 0
+        while new_node:
+            if count == index - 1:
+                node = Node(val)
+                node.next = new_node.next
+                new_node.next = node
+                break
+            new_node = new_node.next
+            count += 1
 
     def deleteAtIndex(self, index: int) -> None:
+        if index < 0 or index > len(self) - 1:
+            return -1
         if index == 0:
-            head = self.data[0]
-            if head:
-                self.data = self.data[1:]
-        elif index < len(self.data):
-            current = self.data[index]
-            if len(current) == 1:
-                self.data.pop(index)
-            else:
-                self.data[index] = current[1:]
-        return self.data
+            self.head = self.head.next
+        
+        count = 0
+        new_node = self.head
+        while new_node:
+            if count == index - 1:
+                new_node.next = new_node.next.next
+                break
+            new_node = new_node.next
+            count += 1
 
 # Example usage
 if __name__ == "__main__":
@@ -77,13 +104,13 @@ if __name__ == "__main__":
     myList = [[],[7],[2],[1],[3,0],[2],[6],[4],[4],[4],[5,0],[6]]
     myLinkedList = MyLinkedList()
     print(myLinkedList.addAtHead(7)) # 7->7
-    print(myLinkedList.addAtHead(2)) # 2->7->7
-    print(myLinkedList.addAtHead(1)) # 1->2->7->7
-    print(myLinkedList.addAtIndex(3, 0)) # 1->2->0->7
-    print(myLinkedList.deleteAtIndex(2)) # 1->2->7->1
-    print(myLinkedList.addAtHead(6)) # 6->1->2->7
-    print(myLinkedList.addAtTail(4)) 
-    print(myLinkedList.get(4)) # 1
-    print(myLinkedList.addAtHead(4)) # 4->6->1->2->7
-    print(myLinkedList.addAtIndex(5, 0)) # 4->6->1->2->0
-    print(myLinkedList.addAtHead(6)) # 6->4->6->1->2->0
+    # print(myLinkedList.addAtHead(2)) # 2->7->7
+    # print(myLinkedList.addAtHead(1)) # 1->2->7->7
+    # print(myLinkedList.addAtIndex(3, 0)) # 1->2->0->7
+    # print(myLinkedList.deleteAtIndex(2)) # 1->2->7->1
+    # print(myLinkedList.addAtHead(6)) # 6->1->2->7
+    # print(myLinkedList.addAtTail(4)) 
+    # print(myLinkedList.get(4)) # 1
+    # print(myLinkedList.addAtHead(4)) # 4->6->1->2->7
+    # print(myLinkedList.addAtIndex(5, 0)) # 4->6->1->2->0
+    # print(myLinkedList.addAtHead(6)) # 6->4->6->1->2->0
